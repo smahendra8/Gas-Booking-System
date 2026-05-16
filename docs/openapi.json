@@ -1,1 +1,812 @@
-{"openapi":"3.0.1","info":{"title":"OpenAPI definition","version":"v0"},"servers":[{"url":"http://localhost:8080","description":"Generated server url"}],"paths":{"/api/users/register":{"post":{"tags":["user-controller"],"operationId":"register","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/users/login":{"post":{"tags":["user-controller"],"operationId":"login","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/LoginRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"string"}}}}}}},"/api/payments":{"get":{"tags":["payment-controller"],"operationId":"getAllPayments","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/Payment"}}}}}}},"post":{"tags":["payment-controller"],"operationId":"createPayment","parameters":[{"name":"customerId","in":"query","required":true,"schema":{"type":"string"}},{"name":"amount","in":"query","required":true,"schema":{"type":"number","format":"double"}},{"name":"mode","in":"query","required":true,"schema":{"type":"string","enum":["CASH","UPI","CARD","NETBANKING"]}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/payments/qr":{"post":{"tags":["payment-controller"],"operationId":"getPaymentQRCode","parameters":[{"name":"amount","in":"query","required":true,"schema":{"type":"number","format":"double"}},{"name":"customerId","in":"query","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"image/png":{"schema":{"type":"array","items":{"type":"string","format":"byte"}}}}}}}},"/api/cylinders":{"get":{"tags":["cylinder-controller"],"operationId":"getAllCylinders","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/CylinderEntity"}}}}}}},"post":{"tags":["cylinder-controller"],"operationId":"addCylinder","parameters":[{"name":"type","in":"query","required":true,"schema":{"type":"string","enum":["DOMESTIC","COMMERCIAL"]}},{"name":"price","in":"query","required":true,"schema":{"type":"number","format":"double"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/bookings":{"get":{"tags":["booking-controller"],"operationId":"getAllBookings","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/BookingEntity"}}}}}}},"post":{"tags":["booking-controller"],"operationId":"createBooking","parameters":[{"name":"customerId","in":"query","required":true,"schema":{"type":"string"}},{"name":"deliveryAddress","in":"query","required":true,"schema":{"type":"string"}},{"name":"type","in":"query","required":true,"schema":{"type":"string","enum":["DOMESTIC","COMMERCIAL"]}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/payments/{id}/confirm":{"patch":{"tags":["payment-controller"],"operationId":"confirmPayment","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/bookings/{id}cancel":{"patch":{"tags":["booking-controller"],"operationId":"cancelBooking","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/BookingEntity"}}}}}}},"/api/receipts/{paymentId}/pdf":{"get":{"tags":["receipt-controller"],"operationId":"getReceiptPdf","parameters":[{"name":"paymentId","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"application/pdf":{"schema":{"type":"array","items":{"type":"string","format":"byte"}}}}}}}},"/api/receipts/{paymentId}/json":{"get":{"tags":["receipt-controller"],"operationId":"getReceiptJson","parameters":[{"name":"paymentId","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ReceiptResponse"}}}}}}},"/api/payments/{id}":{"get":{"tags":["payment-controller"],"operationId":"getpaymentById","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/Payment"}}}}}}},"/api/cylinders/status/{status}":{"get":{"tags":["cylinder-controller"],"operationId":"getCylinderByStatus","parameters":[{"name":"status","in":"path","required":true,"schema":{"type":"string","enum":["AVAILABLE","CONFIRMED","DELIVERED","PENDING","CANCELLED"]}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/CylinderEntity"}}}}}}}},"/api/bookings/{id}":{"get":{"tags":["booking-controller"],"operationId":"getBookingById","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/BookingEntity"}}}}}}},"/api/bookings/history/{customerId}":{"get":{"tags":["booking-controller"],"operationId":"getBookingHistory","parameters":[{"name":"customerId","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/BookingEntity"}}}}}}}},"/api/users/{id}":{"delete":{"tags":["user-controller"],"operationId":"deleteUser","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"string"}}}}}}},"/api/cylinders/{id}":{"delete":{"tags":["cylinder-controller"],"operationId":"deleteCylinder","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/CylinderEntity"}}}}}}}},"components":{"schemas":{"RegisterRequest":{"type":"object","properties":{"name":{"type":"string"},"email":{"type":"string"},"password":{"type":"string"},"address":{"type":"string"},"mobileNumber":{"type":"string"}}},"LoginRequest":{"type":"object","properties":{"mobileNumber":{"type":"string"},"password":{"type":"string"}}},"BookingEntity":{"type":"object","properties":{"id":{"type":"integer","format":"int64","readOnly":true},"cylinderType":{"type":"string"},"customerId":{"type":"string"},"bookingDate":{"type":"string","format":"date"},"deliveryAddress":{"type":"string"},"status":{"type":"string","enum":["PENDING","CONFIRMED","CANCELLED","DELIVERED"]}}},"ReceiptResponse":{"type":"object","properties":{"receiptNo":{"type":"string"},"customerId":{"type":"string"},"amount":{"type":"number","format":"double"},"paymentMode":{"type":"string"},"status":{"type":"string"},"dateTime":{"type":"string"}}},"Payment":{"type":"object","properties":{"id":{"type":"integer","format":"int64","readOnly":true},"customerId":{"type":"string"},"amount":{"type":"number","format":"double"},"payment":{"type":"string","enum":["CASH","UPI","CARD","NETBANKING"]},"status":{"type":"string","enum":["PENDING","SUCCESS","FAILED"]},"paidDate":{"type":"string","format":"date-time"}}},"CylinderEntity":{"type":"object","properties":{"id":{"type":"integer","format":"int64","readOnly":true},"type":{"type":"string","enum":["DOMESTIC","COMMERCIAL"]},"price":{"type":"number","format":"double"},"status":{"type":"string","enum":["AVAILABLE","CONFIRMED","DELIVERED","PENDING","CANCELLED"]}}}}}}
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments": {
+      "get": {
+        "tags": [
+          "payment-controller"
+        ],
+        "operationId": "getAllPayments",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "payment-controller"
+        ],
+        "operationId": "createPayment",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CASH",
+                "UPI",
+                "CARD",
+                "NETBANKING"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/qr": {
+      "post": {
+        "tags": [
+          "payment-controller"
+        ],
+        "operationId": "getPaymentQRCode",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "byte"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cylinders": {
+      "get": {
+        "tags": [
+          "cylinder-controller"
+        ],
+        "operationId": "getAllCylinders",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CylinderEntity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "cylinder-controller"
+        ],
+        "operationId": "addCylinder",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DOMESTIC",
+                "COMMERCIAL"
+              ]
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bookings": {
+      "get": {
+        "tags": [
+          "booking-controller"
+        ],
+        "operationId": "getAllBookings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingEntity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "booking-controller"
+        ],
+        "operationId": "createBooking",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deliveryAddress",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DOMESTIC",
+                "COMMERCIAL"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/{id}/confirm": {
+      "patch": {
+        "tags": [
+          "payment-controller"
+        ],
+        "operationId": "confirmPayment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bookings/{id}cancel": {
+      "patch": {
+        "tags": [
+          "booking-controller"
+        ],
+        "operationId": "cancelBooking",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingEntity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/receipts/{paymentId}/pdf": {
+      "get": {
+        "tags": [
+          "receipt-controller"
+        ],
+        "operationId": "getReceiptPdf",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "byte"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/receipts/{paymentId}/json": {
+      "get": {
+        "tags": [
+          "receipt-controller"
+        ],
+        "operationId": "getReceiptJson",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReceiptResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/{id}": {
+      "get": {
+        "tags": [
+          "payment-controller"
+        ],
+        "operationId": "getpaymentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cylinders/status/{status}": {
+      "get": {
+        "tags": [
+          "cylinder-controller"
+        ],
+        "operationId": "getCylinderByStatus",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AVAILABLE",
+                "CONFIRMED",
+                "DELIVERED",
+                "PENDING",
+                "CANCELLED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CylinderEntity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bookings/{id}": {
+      "get": {
+        "tags": [
+          "booking-controller"
+        ],
+        "operationId": "getBookingById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingEntity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bookings/history/{customerId}": {
+      "get": {
+        "tags": [
+          "booking-controller"
+        ],
+        "operationId": "getBookingHistory",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingEntity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cylinders/{id}": {
+      "delete": {
+        "tags": [
+          "cylinder-controller"
+        ],
+        "operationId": "deleteCylinder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CylinderEntity"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "mobileNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "mobileNumber": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "BookingEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "cylinderType": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "bookingDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "deliveryAddress": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "CONFIRMED",
+              "CANCELLED",
+              "DELIVERED"
+            ]
+          }
+        }
+      },
+      "ReceiptResponse": {
+        "type": "object",
+        "properties": {
+          "receiptNo": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "paymentMode": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "dateTime": {
+            "type": "string"
+          }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "payment": {
+            "type": "string",
+            "enum": [
+              "CASH",
+              "UPI",
+              "CARD",
+              "NETBANKING"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "SUCCESS",
+              "FAILED"
+            ]
+          },
+          "paidDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CylinderEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "DOMESTIC",
+              "COMMERCIAL"
+            ]
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "CONFIRMED",
+              "DELIVERED",
+              "PENDING",
+              "CANCELLED"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

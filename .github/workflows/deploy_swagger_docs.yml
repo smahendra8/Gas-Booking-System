@@ -1,7 +1,6 @@
 name: Deploy API Documentation to GitHub Pages
 
 on:
-  # Uncomment to enable automatic deployment on push
   push:
     branches:
       - main

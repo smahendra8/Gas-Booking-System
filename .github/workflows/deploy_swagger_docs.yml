@@ -41,7 +41,7 @@ jobs:
           # Pass application_no_jdbc.properties from project root via --args so Spring Boot
           # loads it as an additional config file, overriding any datasource/JPA settings
           # that would cause a PostgreSQL connection attempt in CI.
-          ./gradlew bootRun --args='--spring.config.additional-location=file:./application_no_jdbc.properties' &
+          ./gradlew bootRun --args='--spring.profiles.active=swagger'
           echo $! > app.pid
           echo "Waiting for application to start..."
           sleep 30

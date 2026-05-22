@@ -104,8 +104,8 @@ public class PaymentService {
         }
 
         if (payment.getStatus() == Payment.PaymentStatus.PENDING) {
-            payment.setStatus(Payment.PaymentStatus.SUCCESS);
-            System.out.println("✅ Payment SUCCESS!");
+            payment.setStatus(Payment.PaymentStatus.FAILED);
+            System.out.println("❌ Payment FAILED!");
 
             BookingEntity booking = bookingRepository.findTopByCustomerIdOrderByBookingDateDesc(payment.getCustomerId());
 

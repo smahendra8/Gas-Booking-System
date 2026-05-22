@@ -9,7 +9,7 @@ public interface BookingRepository extends JpaRepository<BookingEntity,Long> {
 
 
     //today//
-    List<BookingEntity>findByCustomerId(Long customerId);
+    List<BookingEntity>findByCustomerId(String customerId);
 
     // Customer ID తో latest booking తీసుకో
     BookingEntity findTopByCustomerIdOrderByBookingDateDesc(String customerId);

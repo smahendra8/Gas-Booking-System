@@ -8,7 +8,7 @@ import java.util.List;
 public interface CylinderRepository extends JpaRepository<CylinderEntity,Long> {
     List<CylinderEntity> findByStatus(CylinderEntity.Status status);
 
-    CylinderEntity findByType(CylinderEntity.Type type);
+   List<CylinderEntity> findByType(CylinderEntity.Type type);
 
 
 

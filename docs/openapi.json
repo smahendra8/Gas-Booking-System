@@ -117,6 +117,9 @@
         "description": "Getting Payements History ",
         "operationId": "getAllPayments",
         "responses": {
+          "400": {
+            "description": "No Results Found "
+          },
           "200": {
             "description": "Payments History Sucessfully Showed",
             "content": {
@@ -126,9 +129,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "No Results Found "
           }
         }
       },
@@ -217,9 +217,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "QR Code Generation  Failed "
-          },
           "200": {
             "description": "QR Code Generated Sucessfully",
             "content": {
@@ -229,6 +226,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "QR Code Generation  Failed "
           }
         }
       }
@@ -288,9 +288,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Invalid  Cylinder Details"
-          },
           "200": {
             "description": "Cylinder  Added Sucessfully ",
             "content": {
@@ -300,6 +297,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid  Cylinder Details"
           }
         }
       }
@@ -402,6 +402,9 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Invalid Payment Id Details "
+          },
           "200": {
             "description": "Payment Confirmed Sucessfully ",
             "content": {
@@ -411,9 +414,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid Payment Id Details "
           }
         }
       }
@@ -510,9 +510,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Invalid Payment Id Details "
-          },
           "200": {
             "description": "Payment Sucessfully Displayed",
             "content": {
@@ -522,6 +519,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid Payment Id Details "
           }
         }
       }
@@ -546,9 +546,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Invalid Payment Id  to View Payment Status"
-          },
           "200": {
             "description": " Sucessfully Showed Payment Status",
             "content": {
@@ -558,6 +555,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid Payment Id  to View Payment Status"
           }
         }
       }
@@ -695,6 +695,9 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Invalid Details  to Delete"
+          },
           "200": {
             "description": "User Sucessfully Deleted",
             "content": {
@@ -704,9 +707,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Invalid Details  to Delete"
           }
         }
       }
@@ -731,9 +731,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Invalid  Cylinder Id"
-          },
           "200": {
             "description": "Cylinder  Deleted Sucessfully ",
             "content": {
@@ -743,6 +740,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid  Cylinder Id"
           }
         }
       }
